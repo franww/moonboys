@@ -23,3 +23,16 @@ Aqui está uma prévia do site completo:
 1. Clone o repositório para o seu computador:
    ```bash
    git clone https://github.com/franww/moonboys.git
+## Contribuindo
+
+Contribuições são bem-vindas! Se você deseja melhorar este projeto, siga as etapas abaixo:
+
+Fork este repositório.
+Crie um branch para sua modificação (git checkout -b feature/nova-funcionalidade).
+Commit suas mudanças (git commit -am 'Adiciona nova funcionalidade').
+Faça push para o branch (git push origin feature/nova-funcionalidade).
+Envie um Pull Request.
+## Licença
+
+Este projeto está sob a licença MIT - veja o arquivo LICENSE
+ para mais detalhes.
