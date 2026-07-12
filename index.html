@@ -1,239 +1,424 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#8B5CF6" />
-  <link rel="icon" type="image/png" href="./logo.png" />
-  <link rel="stylesheet" href="./style.css" />
-  <title>Moonboys</title>
-  <meta name="description" content="Moonboys" />
+  <meta name="theme-color" content="#ff7aa8" />
+  <title>Queres namorar comigo? 💖</title>
+
+  <style>
+    :root {
+      --pink: #ff5f96;
+      --pink-dark: #e9447e;
+      --pink-soft: #ffd8e6;
+      --cream: #fff8fb;
+      --text: #5d2940;
+      --shadow: 0 18px 50px rgba(170, 50, 100, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, #ffe2ec 0 7%, transparent 8%),
+        radial-gradient(circle at 85% 15%, #ffd6e5 0 6%, transparent 7%),
+        radial-gradient(circle at 10% 90%, #ffd3e3 0 8%, transparent 9%),
+        linear-gradient(135deg, #fff6fa, #ffd8e8);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .floating-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -40px;
+      opacity: 0;
+      animation: floatUp linear infinite;
+      filter: drop-shadow(0 6px 6px rgba(200, 50, 100, 0.15));
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(0.7);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.75;
+      }
+
+      85% {
+        opacity: 0.65;
+      }
+
+      100% {
+        transform: translateY(-115vh) rotate(25deg) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .card {
+      width: min(92vw, 540px);
+      padding: 38px 28px 32px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      position: relative;
+      z-index: 2;
+      animation: appear 700ms ease both;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .bear {
+      font-size: clamp(72px, 18vw, 115px);
+      line-height: 1;
+      display: inline-block;
+      animation: bounce 1.8s ease-in-out infinite;
+      transform-origin: bottom center;
+      user-select: none;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+
+      50% {
+        transform: translateY(-8px) rotate(2deg);
+      }
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(30px, 7vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+    }
+
+    .subtitle {
+      margin: 0 auto 28px;
+      max-width: 420px;
+      font-size: clamp(16px, 3.8vw, 20px);
+      color: #875168;
+      line-height: 1.5;
+    }
+
+    .buttons-area {
+      position: relative;
+      min-height: 104px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 28px;
+      min-width: 130px;
+      font: inherit;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+      touch-action: manipulation;
+      user-select: none;
+    }
+
+    #yesBtn {
+      color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      box-shadow: 0 10px 24px rgba(233, 68, 126, 0.34);
+      z-index: 4;
+    }
+
+    #yesBtn:hover,
+    #yesBtn:focus-visible {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 14px 28px rgba(233, 68, 126, 0.4);
+      outline: none;
+    }
+
+    #noBtn {
+      color: var(--text);
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(120, 50, 80, 0.14);
+      z-index: 5;
+    }
+
+    .hint {
+      min-height: 24px;
+      margin: 8px 0 0;
+      color: #a4637e;
+      font-size: 14px;
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      animation: appear 500ms ease both;
+    }
+
+    .success.show {
+      display: block;
+    }
+
+    .question.hide {
+      display: none;
+    }
+
+    .success h2 {
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 8vw, 55px);
+      color: var(--pink-dark);
+    }
+
+    .success p {
+      margin: 0;
+      font-size: clamp(18px, 4.5vw, 23px);
+      line-height: 1.5;
+    }
+
+    .big-heart {
+      font-size: clamp(90px, 22vw, 145px);
+      display: inline-block;
+      animation: heartbeat 900ms ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      35% {
+        transform: scale(1.12);
+      }
+
+      55% {
+        transform: scale(1);
+      }
+
+      75% {
+        transform: scale(1.08);
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      top: -20px;
+      border-radius: 3px;
+      z-index: 10;
+      pointer-events: none;
+      animation: fall 3.5s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(115vh) rotate(720deg);
+        opacity: 0.2;
+      }
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(93, 41, 64, 0.65);
+      pointer-events: none;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 18px 24px;
+        border-radius: 24px;
+      }
+
+      .buttons-area {
+        min-height: 130px;
+        gap: 12px;
+      }
+
+      button {
+        min-width: 115px;
+        padding: 13px 22px;
+        font-size: 17px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 
-<body class="entering">
-  <div id="enter-screen" class="enter-screen">
-    <span class="enter-text">MoonBoys</span>
-  </div>
+<body>
+  <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
 
-  <audio id="hero-audio" src="./song.mp3" loop preload="auto"></audio>
+  <main class="card">
+    <section class="question" id="question">
+      <div class="bear" aria-hidden="true">🧸</div>
+      <h1>Queres namorar comigo? 💖</h1>
+      <p class="subtitle">
+        Prometo muitos sorrisos, abraços apertados e momentos bonitos ao teu lado.
+      </p>
 
-  <div class="background-glow">
-    <span class="glow-third"></span>
-  </div>
-
-  <nav class="nav">
-    <div class="container nav-inner">
-      <a href="#" class="brand" aria-label="Moonboys home">
-        <span class="brand-logo" aria-hidden="true">
-          <img src="./logo.png" alt="" />
-        </span>
-        <span>Moonboys</span>
-      </a>
-
-      <ul class="nav-links">
-        <li><a class="nav-link" href="#products">Forum</a></li>
-        <li><a class="nav-link" href="#community">Community</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <a href="https://discord.com/invite/moonboys" target="_blank" rel="noopener noreferrer"
-          class="button button-purple">Discord</a>
-
-        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false"
-          aria-controls="mobile-menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+      <div class="buttons-area" id="buttonsArea">
+        <button id="yesBtn" type="button">Sim! 💘</button>
+        <button id="noBtn" type="button">Não 🙈</button>
       </div>
-    </div>
 
-    <div class="mobile-menu" id="mobile-menu">
-      <div class="mobile-menu-content">
-        <a class="mobile-link" href="#products">Forum</a>
-        <a class="mobile-link" href="#community">Community</a>
-        <a class="button button-purple" href="https://forum.moonboys.gg" target="_blank"
-          rel="noopener noreferrer">Forum</a>
-      </div>
-    </div>
-  </nav>
-
-  <div class="nav-spacer"></div>
-
-  <main>
-    <section class="hero">
-      <video class="hero-bg-video" src="./moonboys.mp4" autoplay muted loop playsinline preload="metadata"
-        aria-label="Moonboys background video"></video>
-
-      <div class="container hero-video-content fade-in">
-        <div class="hero-actions">
-          <a href="https://discord.gg/moonboys" target="_blank" rel="noopener noreferrer" class="button button-discord">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path
-                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128c.126-.094.252-.194.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z">
-              </path>
-            </svg>
-            Join Discord Server
-          </a>
-        </div>
-      </div>
+      <p class="hint" id="hint">Escolhe com o coração... 😌</p>
     </section>
 
-    <section class="section-pad" id="products">
-      <div class="container">
-        <div class="section-head fade-in">
-          <p class="eyebrow">Forum</p>
-          <h2>Big Money Never Comes Clean.</h2>
-          <p>One Forum all here.</p>
-        </div>
-
-        <div class="cards-grid">
-          <article class="card fade-in">
-            <div class="icon-box">
-              <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                <circle cx="24" cy="24" r="18" stroke="white" stroke-width="3" stroke-dasharray="3 4" fill="white"
-                  fill-opacity="0.1"></circle>
-                <path d="M24 14V24L32 32" stroke="white" stroke-width="3" stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </svg>
-            </div>
-
-            <h3>Hour Booster</h3>
-            <p>Boost up to 67 games at the same time. Drive it all from the forum.</p>
-
-            <ul class="check-list">
-              <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                Auto restart
-              </li>
-
-              <li>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                Custom in-game titles
-              </li>
-            </ul>
-
-            <a href="https://discord.gg/moonboys" target="_blank" rel="noopener noreferrer" class="card-link">
-              Go to Forum →
-            </a>
-          </article>
-
-          <article class="card fade-in">
-            <div class="icon-box">
-              <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                <rect x="8" y="22" width="8" height="18" rx="2" fill="white" fill-opacity="0.4"></rect>
-                <rect x="20" y="14" width="8" height="26" rx="2" fill="white" fill-opacity="0.7"></rect>
-                <rect x="32" y="8" width="8" height="32" rx="2" fill="white"></rect>
-              </svg>
-            </div>
-
-            <h3>Moonboys WalkBot</h3>
-            <p>A Walkbot for CS2. Increase your account level, farm crates and passes.</p>
-
-            <div class="mini-stats">
-              <div>
-                <strong>No vac</strong>
-                <span>Tested 500+ matchs</span>
-              </div>
-
-              <div>
-                <strong>Private</strong>
-                <span>Low number of users</span>
-              </div>
-            </div>
-
-            <a href="https://discord.gg/moonboys" target="_blank" rel="noopener noreferrer" class="card-link">
-              Go to Forum →
-            </a>
-          </article>
-
-          <article class="card fade-in">
-            <div class="icon-box">
-              <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                <circle cx="20" cy="20" r="14" stroke="white" stroke-width="3" fill="white" fill-opacity="0.1"></circle>
-                <path d="M30 30L42 42" stroke="white" stroke-width="3" stroke-linecap="round"></path>
-              </svg>
-            </div>
-
-            <h3>Moonboys External</h3>
-            <p>If you value the security of your account and still want to crush your enemies.</p>
-
-            <div class="terminal-mini">
-              <div class="new-url">
-                <span class="accent">→</span>
-                <span>Buy <span class="accent">Moonboys.xyz</span></span>
-              </div>
-            </div>
-
-            <a href="https://discord.gg/moonboys" target="_blank" rel="noopener noreferrer" class="card-link">
-              Go to Forum →
-            </a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="community" id="community">
-      <div class="container fade-in">
-        <h2>One Discord. All Members Here.</h2>
-        <p class="used-by">Used by me and your mom</p>
-
-        <div class="community-actions">
-          <a href="https://discord.gg/moonboys" target="_blank" rel="noopener noreferrer"
-            class="button button-discord">
-            Join Discord Server
-          </a>
-        </div>
-      </div>
+    <section class="success" id="success" aria-live="polite">
+      <div class="big-heart" aria-hidden="true">💖</div>
+      <h2>Eu sabia! 🥹</h2>
+      <p>
+        Agora é oficial: nós dois, muitas aventuras e um amor bem bonito. 💕
+      </p>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-main">
-        <div class="footer-brand">
-          <div class="footer-brand-title">
-            <span class="brand-logo" aria-hidden="true">
-              <img src="./logo.png" alt="" />
-            </span>
-            <span>Moonboys</span>
-          </div>
-        </div>
+  <div class="footer">Feito com carinho 💗</div>
 
-        <div class="footer-links"></div>
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const hint = document.getElementById("hint");
+    const question = document.getElementById("question");
+    const success = document.getElementById("success");
+    const floatingHearts = document.getElementById("floatingHearts");
 
-        <div class="footer-right">
-          <p class="developer-credit">
-            Developed by
-            <span class="dev-name">Franww13</span>
-          </p>
-        </div>
-      </div>
+    let escapes = 0;
 
-      <div class="footer-bottom">
-        <p>&copy; 1999-2026 Moonboys. All rights reserved.</p>
+    const funnyMessages = [
+      "Ei! Pensa melhor 😳",
+      "O botão está com vergonha 🙈",
+      "Não vale escolher esse 😜",
+      "Tenta o outro botão... 💖",
+      "Está quase impossível dizer não 😌",
+      "O destino quer um sim! ✨"
+    ];
 
-        <div class="socials">
-          <a href="https://discord.gg/moonboys" aria-label="Discord Server" target="_blank" rel="noopener noreferrer">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128c.126-.094.252-.194.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z">
-              </path>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    function moveNoButton() {
+      const margin = 12;
+      const buttonRect = noBtn.getBoundingClientRect();
+      const maxX = Math.max(margin, window.innerWidth - buttonRect.width - margin);
+      const maxY = Math.max(margin, window.innerHeight - buttonRect.height - margin);
 
-  <script src="./script.js" defer></script>
+      const x = Math.floor(Math.random() * (maxX - margin + 1)) + margin;
+      const y = Math.floor(Math.random() * (maxY - margin + 1)) + margin;
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+      noBtn.style.margin = "0";
+
+      escapes += 1;
+      hint.textContent = funnyMessages[Math.min(escapes - 1, funnyMessages.length - 1)];
+
+      const yesScale = Math.min(1 + escapes * 0.05, 1.35);
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      moveNoButton();
+    });
+    noBtn.addEventListener("focus", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      question.classList.add("hide");
+      success.classList.add("show");
+      createConfetti();
+    });
+
+    function createFloatingHearts() {
+      const hearts = ["💖", "💕", "💗", "💘", "💓"];
+
+      for (let i = 0; i < 18; i += 1) {
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.fontSize = `${16 + Math.random() * 22}px`;
+        heart.style.animationDuration = `${7 + Math.random() * 7}s`;
+        heart.style.animationDelay = `${Math.random() * 8}s`;
+        floatingHearts.appendChild(heart);
+      }
+    }
+
+    function createConfetti() {
+      const pieces = ["💖", "💕", "✨", "🌸", "💗"];
+
+      for (let i = 0; i < 70; i += 1) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.textContent = pieces[Math.floor(Math.random() * pieces.length)];
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.fontSize = `${14 + Math.random() * 16}px`;
+        piece.style.animationDelay = `${Math.random() * 1.2}s`;
+        piece.style.animationDuration = `${2.5 + Math.random() * 2}s`;
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 5500);
+      }
+    }
+
+    createFloatingHearts();
+  </script>
 </body>
-
 </html>
